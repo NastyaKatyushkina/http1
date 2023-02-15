@@ -1,11 +1,13 @@
 import EditForm from './EditForm.js';
 import DeleteForm from './DeleteForm.js';
 import runRequest from './Request.js';
+
 export default class Widget {
   constructor(parentEl) {
     this.parentEl = parentEl;
     this.productList = [];
   }
+
   static get ctrlId() {
     return {
       widget: 'help-desk-widget',
@@ -21,6 +23,7 @@ export default class Widget {
       delete: 'button-delete',
     };
   }
+
   static get markup() {
     return `
       <div class="header">
@@ -30,39 +33,51 @@ export default class Widget {
       </div>
     `;
   }
+
   static get widgetSelector() {
     return `[data-widget=${this.ctrlId.widget}]`;
   }
+
   static get addSelector() {
     return `[data-id=${this.ctrlId.add}]`;
   }
+
   static get ticketsSelector() {
     return `[data-id=${this.ctrlId.tickets}]`;
   }
+
   static get ticketSelector() {
     return `[data-id=${this.ctrlId.ticket}]`;
   }
+
   static get statusSelector() {
     return `[data-id=${this.ctrlId.status}]`;
   }
+
   static get textSelector() {
     return `[data-id=${this.ctrlId.text}]`;
   }
+
   static get nameSelector() {
     return `[data-id=${this.ctrlId.name}]`;
   }
+
   static get descriptionSelector() {
     return `[data-id=${this.ctrlId.description}]`;
   }
+
   static get createdSelector() {
     return `[data-id=${this.ctrlId.created}]`;
   }
+
   static get editSelector() {
     return `[data-id=${this.ctrlId.edit}]`;
   }
+
   static get deleteSelector() {
     return `[data-id=${this.ctrlId.delete}]`;
   }
+
   async bindToDOM() {
     this.widget = document.createElement('div');
     this.widget.dataset.widget = this.constructor.ctrlId.widget;
@@ -76,6 +91,7 @@ export default class Widget {
     this.editForm.bindToDOM();
     this.addButton.addEventListener('click', this.onAddButtonClick.bind(this));
     this.tickets.addEventListener('click', this.onTicketsClick.bind(this));
+    
     const params = {
       data: {
         method: 'allTickets',
@@ -83,16 +99,19 @@ export default class Widget {
       responseType: 'json',
       method: 'GET',
     };
+
     try {
       this.redraw(await runRequest(params));
     } catch (error) {
       alert(error);
     }
   }
+
   async onAddButtonClick(event) {
     event.preventDefault();
     await this.editForm.show();
   }
+
   async onTicketsClick(event) {
     event.preventDefault();
     const ticket = event.target.closest(this.constructor.ticketSelector);
@@ -110,6 +129,7 @@ export default class Widget {
         await this.constructor.invertVisibleDescription(ticket);
     }
   }
+
   redraw(response) {
     this.tickets.innerHTML = response.reduce((str, {
       id, status, created,
@@ -130,6 +150,7 @@ export default class Widget {
       name.textContent = response[i].name;
     });
   }
+
   static dateToString(timestamp) {
     const date = new Date(timestamp);
     const result = `0${date.getDate()
@@ -139,6 +160,7 @@ export default class Widget {
     }:0${date.getMinutes()}`;
     return result.replace(/\d(\d{2})/g, '$1');
   }
+
   static async getDescription(id) {
     const params = {
       data: {
@@ -148,6 +170,7 @@ export default class Widget {
       responseType: 'text',
       method: 'GET',
     };
+
     try {
       return await runRequest(params);
     } catch (error) {
@@ -155,6 +178,7 @@ export default class Widget {
       return null;
     }
   }
+
   async invertStatus(ticket) {
     const id = ticket.dataset.index;
     const status = ticket.querySelector(this.constructor.statusSelector);
@@ -170,12 +194,14 @@ export default class Widget {
       responseType: 'json',
       method: 'POST',
     };
+
     try {
       this.redraw(await runRequest(params));
     } catch (error) {
       alert(error);
     }
   }
+  
   static async invertVisibleDescription(ticket) {
     const textContainer = ticket.querySelector(this.textSelector);
     let description = ticket.querySelector(this.descriptionSelector);

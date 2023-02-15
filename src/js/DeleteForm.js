@@ -4,6 +4,7 @@ export default class DeleteForm {
   constructor(parentWidget) {
     this.parentWidget = parentWidget;
   }
+
   static get ctrlId() {
     return {
       form: 'delete-form',
@@ -12,6 +13,7 @@ export default class DeleteForm {
       ok: 'button-ok',
     };
   }
+
   static get markup() {
     return `
       <form>
@@ -24,18 +26,23 @@ export default class DeleteForm {
       </form>
     `;
   }
+
   static get formSelector() {
     return `[data-widget=${this.ctrlId.form}]`;
   }
+
   static get titleSelector() {
     return `[data-id=${this.ctrlId.title}]`;
   }
+
   static get cancelSelector() {
     return `[data-id=${this.ctrlId.cancel}]`;
   }
+
   static get okSelector() {
     return `[data-id=${this.ctrlId.ok}]`;
   }
+
   bindToDOM() {
     this.container = document.createElement('div');
     this.container.className = 'help-desk-modal-form';
@@ -47,6 +54,7 @@ export default class DeleteForm {
     this.form.addEventListener('submit', this.onSubmit.bind(this));
     this.form.addEventListener('reset', this.onReset.bind(this));
   }
+
   async onSubmit(event) {
     event.preventDefault();
     const params = {
@@ -57,6 +65,7 @@ export default class DeleteForm {
       responseType: 'json',
       method: 'POST',
     };
+
     try {
       this.parentWidget.redraw(await runRequest(params));
     } catch (error) {
@@ -64,9 +73,11 @@ export default class DeleteForm {
     }
     this.onReset();
   }
+
   onReset() {
     this.container.classList.remove('modal-active');
   }
+  
   show(ticket) {
     this.id = ticket.dataset.index;
     this.container.classList.add('modal-active');

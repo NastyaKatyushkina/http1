@@ -5,6 +5,7 @@ export default class EditForm {
     this.parentWidget = parentWidget;
     this.ticket = {};
   }
+
   static get ctrlId() {
     return {
       form: 'edit-form',
@@ -15,6 +16,7 @@ export default class EditForm {
       cancel: 'button-cancel',
     };
   }
+
   static get markup() {
     return `
       <form>
@@ -29,24 +31,31 @@ export default class EditForm {
       </form>
     `;
   }
+
   static get formSelector() {
     return `[data-widget=${this.ctrlId.form}]`;
   }
+
   static get titleSelector() {
     return `[data-id=${this.ctrlId.title}]`;
   }
+
   static get nameSelector() {
     return `[data-id=${this.ctrlId.name}]`;
   }
+
   static get descriptionSelector() {
     return `[data-id=${this.ctrlId.description}]`;
   }
+
   static get cancelSelector() {
     return `[data-id=${this.ctrlId.cancel}]`;
   }
+
   static get okSelector() {
     return `[data-id=${this.ctrlId.ok}]`;
   }
+
   bindToDOM() {
     this.container = document.createElement('div');
     this.container.className = 'help-desk-modal-form';
@@ -62,6 +71,7 @@ export default class EditForm {
     this.form.addEventListener('reset', this.onReset.bind(this));
     this.ok.addEventListener('click', this.validation.bind(this));
   }
+
   async onSubmit(event) {
     event.preventDefault();
     const params = {
@@ -75,6 +85,7 @@ export default class EditForm {
       responseType: 'json',
       method: 'POST',
     };
+
     try {
       this.parentWidget.redraw(await runRequest(params));
     } catch (error) {
@@ -82,13 +93,16 @@ export default class EditForm {
     }
     this.onReset();
   }
+
   onReset() {
     this.container.classList.remove('modal-active');
   }
+
   validation() {
     this.name.value = this.name.value.trim();
     this.description.value = this.description.value.trim();
   }
+  
   async show(ticket) {
     if (ticket) {
       this.title.textContent = 'Изменить тикет';

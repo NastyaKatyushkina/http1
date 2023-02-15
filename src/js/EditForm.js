@@ -1,4 +1,4 @@
-import runRequest from './Request';
+import runRequest from './Request.js';
 
 export default class EditForm {
   constructor(parentWidget) {

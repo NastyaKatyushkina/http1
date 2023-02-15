@@ -1,6 +1,6 @@
-import EditForm from './EditForm';
-import DeleteForm from './DeleteForm';
-import runRequest from './Request';
+import EditForm from './EditForm.js';
+import DeleteForm from './DeleteForm.js';
+import runRequest from './Request.js';
 export default class Widget {
   constructor(parentEl) {
     this.parentEl = parentEl;

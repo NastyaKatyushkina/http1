@@ -200,6 +200,7 @@ export default class Widget {
       alert(error);
     }
   }
+  
   static async invertVisibleDescription(ticket) {
     const textContainer = ticket.querySelector(this.textSelector);
     let description = ticket.querySelector(this.descriptionSelector);

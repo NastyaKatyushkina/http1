@@ -101,7 +101,8 @@ export default class EditForm {
   validation() {
     this.name.value = this.name.value.trim();
     this.description.value = this.description.value.trim();
-  }  
+  }
+   
   async show(ticket) {
     if (ticket) {
       this.title.textContent = 'Изменить тикет';

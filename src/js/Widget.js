@@ -91,7 +91,6 @@ export default class Widget {
     this.editForm.bindToDOM();
     this.addButton.addEventListener('click', this.onAddButtonClick.bind(this));
     this.tickets.addEventListener('click', this.onTicketsClick.bind(this));
-    
     const params = {
       data: {
         method: 'allTickets',
@@ -201,7 +200,6 @@ export default class Widget {
       alert(error);
     }
   }
-  
   static async invertVisibleDescription(ticket) {
     const textContainer = ticket.querySelector(this.textSelector);
     let description = ticket.querySelector(this.descriptionSelector);

@@ -77,7 +77,6 @@ export default class DeleteForm {
   onReset() {
     this.container.classList.remove('modal-active');
   }
-  
   show(ticket) {
     this.id = ticket.dataset.index;
     this.container.classList.add('modal-active');
